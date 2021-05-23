@@ -35,12 +35,13 @@ def create():
 def read():
     try:
         seconds = int(datetime.datetime.now(tz=pytz.utc).timestamp())
-        print(seconds)
         query = payload_collection.where(u'time_end', u'>=', seconds).order_by(
             u"time_end", direction=firestore.Query.ASCENDING).limit(1).stream()
         for doc in query:
             f'{doc.id} => {doc.to_dict()}'
-        return doc.to_dict()
+            updated_doc = doc.to_dict()
+            updated_doc["timestamp"] = seconds
+        return updated_doc
     except Exception as e:
         return f"An Error Occured: {e}"
 
