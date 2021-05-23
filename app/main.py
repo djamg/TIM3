@@ -1,4 +1,7 @@
 import os
+import datetime
+import pytz
+import math
 import json
 import ast
 from flask import Flask, request, jsonify
@@ -7,6 +10,9 @@ from firebase_admin import credentials, firestore, initialize_app
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Time
+
 
 # Initialize Firestore DB
 cred = credentials.Certificate('cred.json')
@@ -31,7 +37,9 @@ def create():
 @app.route('/api/list', methods=['GET'])
 def read():
     try:
-        query = payload_collection.order_by(
+        seconds = int(datetime.datetime.now(tz=pytz.utc).timestamp())
+        print(seconds)
+        query = payload_collection.where(u'time_end', u'>=', seconds).order_by(
             u"time_end", direction=firestore.Query.ASCENDING).limit(1).stream()
         for doc in query:
             f'{doc.id} => {doc.to_dict()}'
