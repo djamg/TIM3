@@ -11,9 +11,6 @@ from firebase_admin import credentials, firestore, initialize_app
 # Initialize Flask app
 app = Flask(__name__)
 
-# Time
-
-
 # Initialize Firestore DB
 cred = credentials.Certificate('cred.json')
 default_app = initialize_app(cred)
