@@ -13,25 +13,29 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="\app\static\styles.css">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+
 </head>
 <body>
-    <div class="title"><img class="logo" src="\app\static\future.png"></a> TIM3</div>
+    <div class="title"><img class="logo" src=".\static\future.png"></a> TIM3</div>
     <div class="container">
+    <form action = "" method = "POST">
       <div class="panel panel-primary">
         <div class="panel-heading">What's is your next task?</div>
           <div class="panel-body">
+           
              <div class="row">
                 <div class="col-md-6">
                    <div class="form-group">
                       <label class="control-label">Title</label>
-                      <input type="text" class="form-control" name="fname" id="fname">
+                      <input type="text" class="form-control" name="title" id="title" placeholder="Team Meeting">
                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Scheduled Time</label>
                         <div class='input-group date' id='datetimepicker1'>
-                           <input type='text' class="form-control" inputmode='none'/>
+                           <input type='text' class="form-control" name="time_end" id="time" inputmode='none' placeholder="Tomorrow at 5pm">
                            <span class="input-group-addon">
                            <span class="glyphicon glyphicon-calendar"></span>
                            </span>
@@ -47,9 +51,11 @@
                    
                 </div>
             </div>
-            <div class="text-center "><input type="submit" class="btn btn-primary cust-button" value="Schedule Now"></div>
+            <div class="text-center "><input type="submit" class="btn btn-primary cust-button" value="Schedule Now" ></div>
           </div>
+        </form>
        </div>
+    
     </div>
     <script>
         $(function () {

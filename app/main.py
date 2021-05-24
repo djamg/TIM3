@@ -4,8 +4,9 @@ import pytz
 import math
 import json
 import ast
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from firebase_admin import credentials, firestore, initialize_app
+import time
 
 
 # Initialize Flask app
@@ -46,5 +47,20 @@ def read():
         return f"An Error Occured: {e}"
 
 
+@app.route('/', methods=['POST', 'GET'])
+def index():
+    if request.method == 'GET':
+        return render_template('index.html')
+    elif request.method == "POST":
+        data = request.form.to_dict()
+        data["request_source"] = "web"
+        data["time_end"] = int(time.mktime(time.strptime(
+            data["time_end"], "%m/%d/%Y %I:%M %p")))
+        # Decode bytes to dict
+        # print(json.loads(data_str))
+        payload_collection.add(data)
+        return render_template('submit.html')
+
+
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=80, debug=True)
