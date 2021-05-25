@@ -10,7 +10,7 @@ import time
 app = Flask(__name__)
 
 # Initialize Firestore DB
-cred = credentials.Certificate('cred.json')
+cred = credentials.Certificate("cred.json")
 default_app = initialize_app(cred)
 db = firestore.client()
 payload_collection = db.collection('payload')
@@ -32,7 +32,9 @@ def create():
 @app.route('/api/list', methods=['GET'])
 def read():
     try:
-        seconds = int(datetime.datetime.now(tz=pytz.utc).timestamp())
+        seconds = int(datetime.datetime.now(
+            pytz.timezone('Asia/Calcutta')).timestamp() + 19800)
+
         query = payload_collection.where(u'time_end', u'>=', seconds).order_by(
             u"time_end", direction=firestore.Query.ASCENDING).limit(1).stream()
         for doc in query:
@@ -61,7 +63,8 @@ def index():
 
 @app.route('/api/delete')
 def delete():
-    seconds = int(datetime.datetime.now(tz=pytz.utc).timestamp())
+    seconds = int(datetime.datetime.now(
+        pytz.timezone('Asia/Calcutta')).timestamp() + 19800)
 
     def delete_collection(coll_ref=payload_collection, batch_size=1):
         docs = coll_ref.where(u'time_end', u'>=', seconds).order_by(
