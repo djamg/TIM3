@@ -1,9 +1,6 @@
-import os
 import datetime
 import pytz
-import math
 import json
-import ast
 from flask import Flask, request, jsonify, render_template
 from firebase_admin import credentials, firestore, initialize_app
 import time
@@ -60,6 +57,23 @@ def index():
         # print(json.loads(data_str))
         payload_collection.add(data)
         return render_template('submit.html')
+
+
+@app.route('/api/delete')
+def delete():
+    seconds = int(datetime.datetime.now(tz=pytz.utc).timestamp())
+
+    def delete_collection(coll_ref=payload_collection, batch_size=1):
+        docs = coll_ref.where(u'time_end', u'>=', seconds).order_by(
+            u"time_end", direction=firestore.Query.ASCENDING).limit(batch_size).stream()
+        deleted = 0
+
+        for doc in docs:
+            print(f'Deleting doc {doc.id} => {doc.to_dict()}')
+            doc.reference.delete()
+            deleted = deleted + 1
+    delete_collection(coll_ref=payload_collection, batch_size=1)
+    return "Succesfully Deleted"
 
 
 if __name__ == "__main__":
