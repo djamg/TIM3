@@ -10,7 +10,7 @@ import time
 app = Flask(__name__)
 
 # Initialize Firestore DB
-cred = credentials.Certificate('../cred.json')
+cred = credentials.Certificate('cred.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 payload_collection = db.collection('payload')
