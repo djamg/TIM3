@@ -10,7 +10,7 @@ import time
 app = Flask(__name__)
 
 # Initialize Firestore DB
-cred = credentials.Certificate('cred.json')
+cred = credentials.Certificate('../cred.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 payload_collection = db.collection('payload')
@@ -77,4 +77,5 @@ def delete():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    # app.run(host="0.0.0.0", port=80, debug=True)
+    app.run()
