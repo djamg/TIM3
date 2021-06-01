@@ -1,2 +1,4 @@
 cred.json
 schema.txt
+venv/
+Dockerfile
